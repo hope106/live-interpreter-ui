@@ -49,7 +49,7 @@ A real-time voice interpreter web application powered by Google's Gemini Live AP
 
 ```
 ┌─────────────────┐     WebSocket      ┌─────────────────┐     gRPC      ┌──────────────┐
-│   Frontend UI   │ ◄───────────────► │  Backend Server │ ◄──────────► │  Gemini API  │
+│   Frontend UI   │ ◄───────────────►  │  Backend Server │ ◄──────────►  │  Gemini API  │
 │   (React)       │  JSON + Base64     │   (FastAPI)     │  Streaming    │   (Google)   │
 └─────────────────┘     Audio          └─────────────────┘               └──────────────┘
 ```
@@ -277,17 +277,10 @@ live-interpreter-ui/
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments | 감사의 말
-
-- Google Gemini Live API for powering the real-time translation
-- React and Vite communities for excellent developer tools
-- Web Audio API for enabling high-quality audio processing
-
 ## 📞 Support | 지원
 
 For issues and questions:
 - 🐛 [GitHub Issues](../../issues)
-- 📧 Contact: [your-email@example.com]
 
 ---
 
