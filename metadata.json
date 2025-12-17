@@ -1,5 +1,5 @@
 {
-  "name": "Gemini Live Interpreter",
+  "name": "Live Interpreter",
   "description": "Real-time bidirectional Korean-English voice interpreter using Gemini Live API.",
   "requestFramePermissions": [
     "microphone"

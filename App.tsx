@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Mic, MicOff, Settings2, Power, AlertCircle, Volume2 } from 'lucide-react';
+import { Mic, MicOff, Settings2, Power, AlertCircle, Volume2, LogOut } from 'lucide-react';
 import { ConnectionState, ChatMessage, SpeechState } from './types';
 import { createPcmBlob, decodeAudioData, PCM_SAMPLE_RATE, base64ToArrayBuffer } from './utils/audioUtils';
 import Visualizer from './components/Visualizer';
 import Transcript from './components/Transcript';
 import SpeechStateIndicator from './components/SpeechStateIndicator';
 import { WebSocketService, ServerMessage } from './services/WebSocketService';
+import { useAuth } from './contexts/AuthContext';
 
 function App() {
+  const { auth, logout } = useAuth();
   // State
   const [connectionState, setConnectionState] = useState<ConnectionState>(ConnectionState.DISCONNECTED);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -245,7 +247,8 @@ function App() {
       processor.connect(inputCtx.destination);
 
       const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws';
-      const wsService = new WebSocketService(wsUrl, {
+      const wsUrlWithToken = `${wsUrl}?token=${auth.token}`;
+      const wsService = new WebSocketService(wsUrlWithToken, {
         onMessage: handleWebSocketMessage,
         onError: handleWebSocketError,
         onClose: handleWebSocketClose,
@@ -295,8 +298,25 @@ function App() {
             <p className="text-xs text-zinc-400">Korean <span className="text-zinc-600">⇄</span> English</p>
           </div>
         </div>
-        
+
         <div className="flex items-center gap-4">
+            {/* 사용자 정보 */}
+            {auth.user && (
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-sm font-medium text-zinc-300">{auth.user.name}</p>
+                  <p className="text-xs text-zinc-500">{auth.user.email}</p>
+                </div>
+                <button
+                  onClick={logout}
+                  className="p-2 rounded-lg hover:bg-zinc-800 transition-colors"
+                  title="로그아웃"
+                >
+                  <LogOut className="w-5 h-5 text-zinc-400" />
+                </button>
+              </div>
+            )}
+
             <div className={`px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 border ${
                 connectionState === ConnectionState.CONNECTED 
                 ? 'bg-green-500/10 text-green-400 border-green-500/20' 

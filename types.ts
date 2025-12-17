@@ -20,3 +20,12 @@ export interface AudioVisualizerProps {
 }
 
 export type SpeechState = 'speaking' | 'silent' | 'processing';
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  token: string | null;
+  user: {
+    email: string;
+    name: string;
+  } | null;
+}
